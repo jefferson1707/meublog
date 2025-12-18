@@ -1,0 +1,159 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ post.title }} - Meu Blog{% endblock %}
+
+{% block content %}
+<article>
+    <!-- Cabeçalho do Post -->
+    <div class="mb-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'blog:post_list' %}">Home</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    {{ post.title|truncatechars:30 }}
+                </li>
+            </ol>
+        </nav>
+        
+        <h1 class="display-5">{{ post.title }}</h1>
+        
+        <div class="text-muted mb-3">
+            <div class="d-flex flex-wrap align-items-center">
+                <span class="me-3">
+                    Por <strong>{{ post.author.username }}</strong>
+                </span>
+                <span class="me-3">
+                     {{ post.created_at|date:"d/m/Y H:i" }}
+                </span>
+                
+                {% if post.categories.all %}
+                <span class="me-3">
+                    
+                    {% for category in post.categories.all %}
+                    <a href="{% url 'blog:category_posts' category.name %}" 
+                       class="text-decoration-none">
+                        {{ category.name }}{% if not forloop.last %}, {% endif %}
+                    </a>
+                    {% endfor %}
+                </span>
+                {% endif %}
+                
+                {% if not post.published %}
+                <span class="badge bg-warning text-dark">Rascunho</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Imagem do Post -->
+    {% if post.image %}
+    <div class="mb-4 text-center">
+        <img src="{{ post.image.url }}" 
+             class="img-fluid rounded" 
+             alt="{{ post.title }}"
+             style="max-height: 500px; object-fit: cover;">
+        {% if post.image.url %}
+        <p class="text-muted mt-2"><small>Imagem: {{ post.image.name }}</small></p>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Conteúdo do Post -->
+    <div class="post-content mb-5">
+        {{ post.content|linebreaks }}
+    </div>
+
+    <!-- Seção de Comentários -->
+    <div class="mt-5 pt-4 border-top">
+        <h3> Comentários 
+            <span class="badge bg-secondary">{{ comments.count }}</span>
+        </h3>
+        
+        <!-- Lista de Comentários -->
+        {% if comments %}
+            {% for comment in comments %}
+            <div class="card mb-3 {% if forloop.first %}border-primary{% endif %}">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 class="card-subtitle mb-2">
+                                <strong>{{ comment.author.username }}</strong>
+                                <small class="text-muted">
+                                    em {{ comment.created_at|date:"d/m/Y H:i" }}
+                                </small>
+                            </h6>
+                        </div>
+                        {% if user == comment.author or user.is_superuser %}
+                        <small class="text-muted">
+                            <a href="#" class="text-decoration-none">Editar</a>
+                        </small>
+                        {% endif %}
+                    </div>
+                    <p class="card-text">{{ comment.content|linebreaks }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-info">
+                <p class="mb-0">Seja o primeiro a comentar!</p>
+            </div>
+        {% endif %}
+
+        <!-- Formulário de Comentário -->
+        <div class="mt-4">
+            <h4>Deixe seu comentário</h4>
+            
+            {% if user.is_authenticated %}
+            <form method="post" class="mt-3">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    {{ form.content.label_tag }}
+                    {{ form.content }}
+                    
+                    {% if form.content.errors %}
+                    <div class="alert alert-danger mt-2">
+                        {{ form.content.errors }}
+                    </div>
+                    {% endif %}
+                    
+                    {% if form.content.help_text %}
+                    <small class="form-text text-muted">
+                        {{ form.content.help_text }}
+                    </small>
+                    {% endif %}
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    Enviar Comentário
+                </button>
+            </form>
+            {% else %}
+            <div class="alert alert-warning">
+                <p class="mb-0">
+                    <a href="{% url 'login' %}?next={{ request.path }}" class="alert-link">
+                        Faça login
+                    </a> 
+                    para comentar.
+                </p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</article>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Adiciona classes Bootstrap ao textarea do formulário
+    document.addEventListener('DOMContentLoaded', function() {
+        const textarea = document.querySelector('textarea');
+        if (textarea) {
+            textarea.classList.add('form-control');
+            textarea.setAttribute('rows', '4');
+        }
+    });
+</script>
+{% endblock %}

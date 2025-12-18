@@ -1,0 +1,19 @@
+[run]
+source = .
+omit =
+    */migrations/*
+    */tests/*
+    */settings/*
+    */urls.py
+    manage.py
+    */__init__.py
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __str__
+    def __repr__
+    raise AssertionError
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    if settings.DEBUG

@@ -1,0 +1,168 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Criar Novo Post - Meu Blog{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h2 class="mb-0"> Criar Novo Post</h2>
+            </div>
+            
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <!-- Exibir erros gerais do formulário -->
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {% for error in form.non_field_errors %}
+                        <p class="mb-0">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Campo: Título -->
+                    <div class="mb-3">
+                        <label for="{{ form.title.id_for_label }}" class="form-label">
+                            {{ form.title.label }}
+                        </label>
+                        {{ form.title }}
+                        
+                        {% if form.title.errors %}
+                        <div class="alert alert-danger mt-2">
+                            {% for error in form.title.errors %}
+                            <p class="mb-0">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        
+                        {% if form.title.help_text %}
+                        <small class="form-text text-muted">
+                            {{ form.title.help_text }}
+                        </small>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Campo: Conteúdo -->
+                    <div class="mb-3">
+                        <label for="{{ form.content.id_for_label }}" class="form-label">
+                            {{ form.content.label }}
+                        </label>
+                        {{ form.content }}
+                        
+                        {% if form.content.errors %}
+                        <div class="alert alert-danger mt-2">
+                            {% for error in form.content.errors %}
+                            <p class="mb-0">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Campo: Imagem -->
+                    <div class="mb-3">
+                        <label for="{{ form.image.id_for_label }}" class="form-label">
+                            {{ form.image.label }}
+                        </label>
+                        {{ form.image }}
+                        
+                        {% if form.image.errors %}
+                        <div class="alert alert-danger mt-2">
+                            {% for error in form.image.errors %}
+                            <p class="mb-0">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        
+                        {% if form.image.help_text %}
+                        <small class="form-text text-muted">
+                            {{ form.image.help_text }}
+                        </small>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Campo: Categorias -->
+                    <div class="mb-3">
+                        <label for="{{ form.categories.id_for_label }}" class="form-label">
+                            {{ form.categories.label }}
+                        </label>
+                        {{ form.categories }}
+                        
+                        {% if form.categories.errors %}
+                        <div class="alert alert-danger mt-2">
+                            {% for error in form.categories.errors %}
+                            <p class="mb-0">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        
+                        <small class="form-text text-muted">
+                            Segure Ctrl (Cmd no Mac) para selecionar múltiplas categorias.
+                        </small>
+                    </div>
+                    
+                    <!-- Campo: Publicado -->
+                    <div class="mb-4">
+                        <div class="form-check">
+                            {{ form.published }}
+                            <label class="form-check-label" for="{{ form.published.id_for_label }}">
+                                {{ form.published.label }}
+                            </label>
+                        </div>
+                        
+                        {% if form.published.help_text %}
+                        <small class="form-text text-muted">
+                            {{ form.published.help_text }}
+                        </small>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Botões -->
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'blog:post_list' %}" class="btn btn-secondary">
+                            ← Cancelar
+                        </a>
+                        
+                        <button type="submit" class="btn btn-success">
+                             Salvar Post
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Adiciona classes Bootstrap aos campos do formulário
+    document.addEventListener('DOMContentLoaded', function() {
+        // Campos de texto
+        const textInputs = document.querySelectorAll('input[type="text"], textarea, select');
+        textInputs.forEach(input => {
+            input.classList.add('form-control');
+        });
+        
+        // Checkbox
+        const checkbox = document.querySelector('input[type="checkbox"]');
+        if (checkbox) {
+            checkbox.classList.add('form-check-input');
+        }
+        
+        // File input
+        const fileInput = document.querySelector('input[type="file"]');
+        if (fileInput) {
+            fileInput.classList.add('form-control');
+        }
+        
+        // Textarea específica do conteúdo
+        const contentTextarea = document.querySelector('#id_content');
+        if (contentTextarea) {
+            contentTextarea.setAttribute('rows', '15');
+        }
+    });
+</script>
+{% endblock %}

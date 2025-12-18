@@ -1,0 +1,125 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Página Inicial - Meu Blog{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Coluna Principal: Lista de Posts -->
+    <div class="col-lg-8">
+        <h1 class="mb-4"> Últimas Postagens</h1>
+        
+        {% if posts %}
+            {% for post in posts %}
+            <div class="card post-card">
+                {% if post.image %}
+                <img src="{{ post.image.url }}" class="card-img-top post-image" alt="{{ post.title }}">
+                {% endif %}
+                
+                <div class="card-body">
+                    <h2 class="card-title">
+                        <a href="{% url 'blog:post_detail' post.pk %}" class="text-decoration-none text-dark">
+                            {{ post.title }}
+                        </a>
+                    </h2>
+                    
+                    <p class="text-muted">
+                        <small>
+                             Por <strong>{{ post.author.username }}</strong> 
+                            em {{ post.created_at|date:"d/m/Y H:i" }}
+                            
+                            {% if post.updated_at != post.created_at %}
+                            |  Editado em {{ post.updated_at|date:"d/m/Y H:i" }}
+                            {% endif %}
+                        </small>
+                    </p>
+                    
+                    <p class="card-text">
+                        {{ post.excerpt }}
+                    </p>
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{% url 'blog:post_detail' post.pk %}" class="btn btn-primary">
+                            Ler mais →
+                        </a>
+                        
+                        {% if post.categories.all %}
+                        <div>
+                            {% for category in post.categories.all %}
+                            <a href="{% url 'blog:category_posts' category.name %}" 
+                               class="badge bg-secondary text-decoration-none me-1">
+                                {{ category.name }}
+                            </a>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-info">
+                <h4> Nenhuma postagem ainda</h4>
+                <p>Seja o primeiro a postar!</p>
+                
+                {% if user.is_authenticated %}
+                <a href="{% url 'blog:create_post' %}" class="btn btn-success">
+                     Criar Primeiro Post
+                </a>
+                {% else %}
+                <p>
+                    <a href="{% url 'login' %}">Faça login</a> para criar posts.
+                </p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Sidebar: Categorias e Informações -->
+    <div class="col-lg-4">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"> Categorias</h5>
+            </div>
+            <div class="card-body">
+                {% if categories %}
+                <ul class="list-unstyled">
+                    {% for category in categories %}
+                    <li class="mb-2">
+                        <a href="{% url 'blog:category_posts' category.name %}" 
+                           class="text-decoration-none d-flex justify-content-between">
+                            <span>{{ category.name }}</span>
+                            <span class="badge bg-primary rounded-pill">
+                                {{ category.post_set.count }}
+                            </span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-muted">Nenhuma categoria ainda.</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"> Sobre o Blog</h5>
+            </div>
+            <div class="card-body">
+                <p>
+                    Este é um blog desenvolvido com Django para aprendizado.
+                    Total de posts: <strong>{{ posts|length }}</strong>
+                </p>
+                
+                {% if user.is_authenticated %}
+                <div class="d-grid">
+                    <a href="{% url 'blog:create_post' %}" class="btn btn-success">
+                        Criar Novo Post
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Login - Meu Blog{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0"> Login</h3>
+            </div>
+            
+            <div class="card-body">
+                {% if form.errors %}
+                <div class="alert alert-danger">
+                    <p class="mb-0">
+                        Usuário ou senha incorretos. Por favor, tente novamente.
+                    </p>
+                </div>
+                {% endif %}
+                
+                {% if next %}
+                    {% if user.is_authenticated %}
+                    <div class="alert alert-warning">
+                        <p class="mb-0">
+                            Sua conta não tem acesso a esta página.
+                            Por favor, faça login com uma conta que tenha acesso.
+                        </p>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <p class="mb-0">
+                            Por favor, faça login para acessar esta página.
+                        </p>
+                    </div>
+                    {% endif %}
+                {% endif %}
+                
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label">Usuário</label>
+                        <input type="text" 
+                               name="username" 
+                               id="id_username" 
+                               class="form-control"
+                               required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_password" class="form-label">Senha</label>
+                        <input type="password" 
+                               name="password" 
+                               id="id_password" 
+                               class="form-control"
+                               required>
+                    </div>
+                    
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-primary">
+                            Entrar
+                        </button>
+                    </div>
+                    
+                    <input type="hidden" name="next" value="{{ next }}">
+                </form>
+                
+                <hr>
+                
+                <div class="text-center">
+                    <p class="mb-2">
+                        <small>
+                            <a href="{% url 'blog:post_list' %}">← Voltar para o blog</a>
+                        </small>
+                    </p>
+                    <p class="mb-0">
+                        <small>
+                            Acesse o 
+                            <a href="{% url 'admin:index' %}">painel admin</a>
+                            com suas credenciais.
+                        </small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

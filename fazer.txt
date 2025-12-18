@@ -1,0 +1,9 @@
+perguntar o que e padrão MVC.
+
+fazer pipeline com GuitHub Actions
+
+requeriment.txt
+
+rodar no modo desenvolovedor e modo produção
+
+criar uma versao PWA
