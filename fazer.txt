@@ -7,3 +7,5 @@ requeriment.txt
 rodar no modo desenvolovedor e modo produção
 
 criar uma versao PWA
+
+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
