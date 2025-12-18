@@ -13,7 +13,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.10, 3.11, 3.12]
+        python-version: ['3.10', '3.11', '3.12']  # Versões suportadas
     
     services:
       postgres:
@@ -39,6 +39,13 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     
+    - name: Verificar versão do Python (DEBUG)
+      run: |
+        echo " Python version from matrix: ${{ matrix.python-version }}"
+        python --version
+        which python
+        echo "Python path: $(which python)"
+    
     - name: Instalar dependências do sistema
       run: |
         sudo apt-get update
@@ -47,23 +54,47 @@ jobs:
     - name: Instalar Dependências Python
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install pytest pytest-django coverage
+        echo "Verificando se requirements.txt existe..."
+        
+        # Verifica se requirements.txt existe
+        if [ -f "requirements.txt" ]; then
+          echo " Instalando de requirements.txt..."
+          pip install -r requirements.txt
+        else
+          echo "  requirements.txt não encontrado. Instalando pacotes básicos..."
+          pip install django>=4.2 pillow>=10.0.0 psycopg2-binary>=2.9.6
+        fi
+        
+        # Instala dependências de teste
+        pip install pytest pytest-django coverage flake8 bandit
     
     - name: Criar arquivo .env para testes
       run: |
-        echo "SECRET_KEY=test-secret-key-for-github-actions-$(openssl rand -hex 32)" >> .env
+        echo "SECRET_KEY=test-secret-key-for-github-actions-$(openssl rand -hex 32)" > .env
         echo "DEBUG=True" >> .env
         echo "DATABASE_URL=postgres://postgres:postgres@localhost:5432/github_actions" >> .env
+        echo "ALLOWED_HOSTS=localhost,127.0.0.1,testserver" >> .env
+    
+    - name: Verificar estrutura do projeto
+      run: |
+        echo " Estrutura do projeto:"
+        ls -la
+        echo ""
+        echo " Conteúdo de requirements.txt (se existir):"
+        [ -f "requirements.txt" ] && cat requirements.txt || echo "requirements.txt não existe"
+        echo ""
+        echo " Versões instaladas:"
+        python --version
+        pip --version
     
     - name: Rodar migrações
       run: |
-        python manage.py makemigrations
-        python manage.py migrate
+        python manage.py makemigrations --no-input
+        python manage.py migrate --no-input
     
     - name: Rodar testes
       run: |
-        python manage.py test --verbosity=2
+        python manage.py test --verbosity=2 --no-input
     
     - name: Verificar se tem migrações pendentes
       run: |
@@ -71,23 +102,36 @@ jobs:
     
     - name: Verificar estilo de código (flake8)
       run: |
-        pip install flake8
+        echo " Verificando estilo de código com flake8..."
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     
     - name: Verificar segurança (bandit)
       run: |
-        pip install bandit
+        echo "  Verificando segurança com bandit..."
         bandit -r . -f json -o bandit-report.json || true
+        echo "Relatório de segurança gerado"
     
     - name: Coleta de cobertura
       run: |
+        echo " Coletando cobertura de testes..."
         coverage run --source='.' manage.py test
         coverage report
         coverage xml
+        echo "Cobertura salva em coverage.xml"
     
     - name: Upload cobertura para Codecov
       uses: codecov/codecov-action@v3
       with:
         file: ./coverage.xml
         flags: unittests
+      continue-on-error: true  # Não falha se Codecov não estiver configurado
+    
+    - name: Limpar arquivos temporários
+      if: always()  # Executa mesmo se outros passos falharem
+      run: |
+        echo " Limpando arquivos temporários..."
+        rm -f .env
+        rm -f db.sqlite3
+        rm -f bandit-report.json
+        rm -f coverage.xml
