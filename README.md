@@ -5,7 +5,7 @@
 [![Django Version](https://img.shields.io/badge/django-4.2-green.svg)](https://www.djangoproject.com/)
 [![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-Um blog completo desenvolvido com Django, incluindo sistema de posts, categorias, comentários e painel administrativo. Esse projeto é somente para aprendizado.
+Um blog completo no modelo MVT desenvolvido com Django, incluindo sistema de posts, categorias, comentários e painel administrativo. Esse projeto é somente para aprendizado.
 
 
 
