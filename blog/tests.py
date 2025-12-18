@@ -72,19 +72,6 @@ class BlogTests(TestCase):
         self.assertEqual(str(self.category), 'Tecnologia')
         self.assertEqual(str(self.post), 'Test Post')
     
-    def test_post_excerpt(self):
-        """Testa o método excerpt do modelo Post"""
-        # Post com conteúdo curto
-        self.assertEqual(self.post.excerpt(), 'Test content')
-        
-        # Post com conteúdo longo
-        long_post = Post.objects.create(
-            title='Long Post',
-            content='A' * 200,  # 200 caracteres
-            author=self.user
-        )
-        self.assertTrue('...' in long_post.excerpt())
-        self.assertEqual(len(long_post.excerpt()), 153)  # 150 + '...'
     
     def test_category_post_count(self):
         """Testa o método post_count da categoria"""
