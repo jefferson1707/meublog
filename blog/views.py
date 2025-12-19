@@ -103,3 +103,13 @@ def create_post(request):
     }   
     return render(request, 'blog/create_post.html', context)
 
+# View para exibir uma página offline.
+def offline_page(request):
+    return render(request, 'blog/offline.html')
+
+# View para servir o manifest.json
+def pwa_manifest(request):
+    return HttpResponse(
+        open('static/manifest.json').read(),
+        content_type='application/json'
+    )

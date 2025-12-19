@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-#dgm^89+fmt!dgi1!i)$v*xsi^8%ja^z$f&u!oqmv6h4&b0dsj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*'] # Permite acesso de qualquer host
 
 
 # Application definition
@@ -150,3 +150,68 @@ if 'test' in sys.argv:
     
     # Debug False em testes
     DEBUG = False
+
+# configurações PWA
+STATIC_ROOT = BASE_DIR / 'staticFILES '
+
+ # HTTPS settings para PWA, para produção  TRUE
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+SECURE_SSL_REDIRECT = False
+
+# PWA Manifest
+PWA_APP_NAME = 'Meu Blog'
+PWA_APP_DESCRIPTION = 'Um blog simples para testes'
+PWA_APP_THEME_COLOR = '#343a40'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_ICONS = [
+    {
+        'src': '/static/icons/icon-72x72.png',
+        'sizes': '72x72',
+        'type': 'image/png'
+    },
+    {
+        'src': '/static/icons/icon-96x96.png',
+        'src': '/static/icons/icon-128x128.png',
+        'sizes': '128x128',
+        'type': 'image/png'
+    },
+    {
+        'src': '/static/icons/icon-144x144.png',
+        'sizes': '144x144',
+        'type': 'image/png'
+    },
+    {
+        'src': '/static/icons/icon-152x152.png',
+        'sizes': '152x152',
+        'type': 'image/png'
+    },
+    {
+        'src': '/static/icons/icon-192x192.png',
+        'sizes': '192x192',
+        'type': 'image/png'
+    },
+    {
+        'src': '/static/icons/icon-384x384.png',
+        'sizes': '384x384',
+        'type': 'image/png'
+    },
+    {
+        'src': '/static/icons/icon-512x512.png',
+        'sizes': '512x512',
+        'type': 'image/png'
+    }
+]
+PWA_APP_SPLASH_SCREEN = [
+    {
+        'src': '/static/icons/splash-640x1136.png',
+        'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
+    }
+]
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'pt-br'

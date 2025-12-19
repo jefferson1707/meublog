@@ -1,0 +1,310 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block title %}Offline - Meu Blog{% endblock %}
+
+{% block extra_css %}
+<style>
+    .offline-hero {
+        background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+        color: white;
+        padding: 60px 0;
+        margin-bottom: 40px;
+        border-radius: 0 0 20px 20px;
+    }
+    
+    .feature-card {
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+        transition: all 0.3s;
+        height: 100%;
+    }
+    
+    .feature-card:hover {
+        border-color: #0d6efd;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        color: #0d6efd;
+    }
+    
+    .cached-content {
+        background-color: #f8f9fa;
+        border-left: 4px solid #0d6efd;
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 0 10px 10px 0;
+    }
+    
+    .btn-install {
+        background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+        border: none;
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        transition: all 0.3s;
+    }
+    
+    .btn-install:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+    }
+    
+    @media (prefers-color-scheme: dark) {
+        .feature-card {
+            background-color: #2c3034;
+            border-color: #495057;
+        }
+        
+        .cached-content {
+            background-color: #2c3034;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="offline-hero">
+    <div class="container text-center">
+        <h1 class="display-4">
+            <i class="bi bi-wifi-off"></i> Você está offline
+        </h1>
+        <p class="lead">Sem conexão com a internet no momento.</p>
+        <p class="mb-0">Mas não se preocupe! Você ainda pode acessar conteúdo salvo.</p>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Status Info -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-8">
+            <div class="alert alert-info">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-info-circle-fill me-3" style="font-size: 1.5rem;"></i>
+                    <div>
+                        <h5 class="alert-heading mb-1">Modo Offline Ativado</h5>
+                        <p class="mb-0">Seu blog PWA armazenou conteúdo em cache para acesso offline.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Grid -->
+    <div class="row mb-5">
+        <div class="col-md-4 mb-4">
+            <div class="feature-card text-center">
+                <div class="feature-icon">
+                    <i class="bi bi-journal-text"></i>
+                </div>
+                <h4>Posts Recentes</h4>
+                <p>Últimos posts visualizados estão disponíveis para leitura offline.</p>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="feature-card text-center">
+                <div class="feature-icon">
+                    <i class="bi bi-image"></i>
+                </div>
+                <h4>Imagens em Cache</h4>
+                <p>Fotos dos posts são armazenadas localmente para visualização.</p>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="feature-card text-center">
+                <div class="feature-icon">
+                    <i class="bi bi-lightning-charge"></i>
+                </div>
+                <h4>Carregamento Rápido</h4>
+                <p>Conteúdo em cache carrega instantaneamente, sem espera.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cached Content Example -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="cached-content">
+                <h5><i class="bi bi-check-circle-fill text-success me-2"></i> Conteúdo Disponível Offline:</h5>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <i class="bi bi-check-lg text-success me-2"></i>
+                                Página inicial do blog
+                            </li>
+                            <li class="list-group-item">
+                                <i class="bi bi-check-lg text-success me-2"></i>
+                                Posts visualizados recentemente
+                            </li>
+                            <li class="list-group-item">
+                                <i class="bi bi-check-lg text-success me-2"></i>
+                                Imagens dos posts
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <i class="bi bi-check-lg text-success me-2"></i>
+                                Navegação entre páginas
+                            </li>
+                            <li class="list-group-item">
+                                <i class="bi bi-check-lg text-success me-2"></i>
+                                Comentários já carregados
+                            </li>
+                            <li class="list-group-item">
+                                <i class="bi bi-check-lg text-success me-2"></i>
+                                Informações do autor
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-8 text-center">
+            <h4 class="mb-4">O que você pode fazer agora?</h4>
+            
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <button onclick="window.location.reload()" class="btn btn-primary btn-lg">
+                    <i class="bi bi-arrow-clockwise"></i> Tentar Reconectar
+                </button>
+                
+                <a href="{% url 'blog:post_list' %}" class="btn btn-outline-primary btn-lg">
+                    <i class="bi bi-house"></i> Ver Posts Offline
+                </a>
+                
+                <button onclick="checkConnection()" class="btn btn-outline-secondary btn-lg">
+                    <i class="bi bi-wifi"></i> Verificar Conexão
+                </button>
+            </div>
+            
+            <!-- Install PWA Button (only shows when online) -->
+            <div class="mt-4" id="installSection" style="display: none;">
+                <p class="text-muted mb-2">Conectado! Instale nosso app PWA:</p>
+                <button class="btn btn-install text-white" id="installOfflineButton">
+                    <i class="bi bi-download"></i> Instalar Blog App
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Connection Status -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">
+                        <i class="bi bi-wifi" id="wifiIcon"></i>
+                        Status da Conexão
+                    </h5>
+                    <p class="card-text" id="connectionStatus">
+                        Verificando...
+                    </p>
+                    <div class="progress mb-3" style="height: 10px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                             id="connectionBar" style="width: 0%"></div>
+                    </div>
+                    <small class="text-muted" id="lastSync">
+                        Última sincronização: <span id="lastSyncTime">Carregando...</span>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Connection checking
+    function checkConnection() {
+        const statusEl = document.getElementById('connectionStatus');
+        const iconEl = document.getElementById('wifiIcon');
+        const barEl = document.getElementById('connectionBar');
+        
+        if (navigator.onLine) {
+            statusEl.innerHTML = '<span class="text-success">Conectado à internet!</span>';
+            iconEl.className = 'bi bi-wifi text-success';
+            barEl.style.width = '100%';
+            barEl.className = 'progress-bar progress-bar-striped bg-success';
+            
+            // Show install button if online
+            document.getElementById('installSection').style.display = 'block';
+        } else {
+            statusEl.innerHTML = '<span class="text-danger">Sem conexão com a internet.</span>';
+            iconEl.className = 'bi bi-wifi-off text-danger';
+            barEl.style.width = '25%';
+            barEl.className = 'progress-bar progress-bar-striped bg-danger';
+            
+            // Hide install button if offline
+            document.getElementById('installSection').style.display = 'none';
+        }
+    }
+    
+    // Update last sync time
+    function updateLastSync() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('pt-BR', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        document.getElementById('lastSyncTime').textContent = timeString;
+    }
+    
+    // PWA Installation for offline page
+    let deferredPromptOffline;
+    const installOfflineButton = document.getElementById('installOfflineButton');
+    
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPromptOffline = e;
+        document.getElementById('installSection').style.display = 'block';
+    });
+    
+    if (installOfflineButton) {
+        installOfflineButton.addEventListener('click', async () => {
+            if (deferredPromptOffline) {
+                deferredPromptOffline.prompt();
+                const { outcome } = await deferredPromptOffline.userChoice;
+                console.log(`Usuário ${outcome === 'accepted' ? 'aceitou' : 'recusou'} instalação`);
+                deferredPromptOffline = null;
+                document.getElementById('installSection').style.display = 'none';
+            }
+        });
+    }
+    
+    // Check connection periodically
+    setInterval(checkConnection, 10000);
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+        checkConnection();
+        updateLastSync();
+        
+        // Update sync time every minute
+        setInterval(updateLastSync, 60000);
+        
+        // Add connection event listeners
+        window.addEventListener('online', checkConnection);
+        window.addEventListener('offline', checkConnection);
+        
+        // Show current mode
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            console.log('Executando como PWA instalado - Modo Offline');
+        }
+    });
+</script>
+{% endblock %}
