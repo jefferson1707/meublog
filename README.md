@@ -1,6 +1,5 @@
 #  Meu Blog Django
 
-[![Django CI](https://github.com/seu-usuario/meublog/actions/workflows/django-ci.yml/badge.svg)](https://github.com/seu-usuario/meublog/actions/workflows/django-ci.yml)
 [![Python Version](https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12-blue.svg)](https://www.python.org/)
 [![Django Version](https://img.shields.io/badge/django-4.2-green.svg)](https://www.djangoproject.com/)
 [![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
