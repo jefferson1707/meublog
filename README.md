@@ -4,7 +4,7 @@
 [![Django Version](https://img.shields.io/badge/django-4.2-green.svg)](https://www.djangoproject.com/)
 [![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-Um blog completo no modelo MVT desenvolvido com Django, incluindo sistema de posts, categorias, comentários e painel administrativo. Esse projeto é somente para aprendizado.
+Um blog completo no modelo MVT desenvolvido com Django, incluindo sistema de posts, categorias, comentários e painel administrativo. Esse projeto é somente para aprendizado, por sua simplicidade não houve necessidade de implementar REST.
 
 
 
@@ -51,8 +51,9 @@ python manage.py migrate
 # 6. Crie superusuário
 python manage.py createsuperuser
 
-# 7. Execute servidor
-python manage.py runserver
+# 7. Execute servidor e servidor com acesso externo
+python manage.py runserver 
+python manage.py runserver 0.0.0.0:8000 
 
 ##  Progressive Web App (PWA)
 
@@ -68,7 +69,7 @@ O blog é um **Progressive Web App (PWA)** completo que pode ser instalado no ce
 | **Splash Screen** |  Implementado | Tela de carregamento personalizada |
 | **Modo Standalone** |  Implementado | Abre como app (sem barra do navegador) |
 
-### 📲 Como Instalar no Celular
+###  Como Instalar no Celular
 
 #### **Android (Chrome):**
 1. Acesse o blog no Chrome
@@ -78,7 +79,7 @@ O blog é um **Progressive Web App (PWA)** completo que pode ser instalado no ce
 
 #### **iOS (Safari):**
 1. Acesse o blog no Safari
-2. Toque em **"Compartilhar"** (
+2. Toque em **"Compartilhar"** 
 3. Role para baixo e toque em **"Adicionar à Tela de Início"**
 4. Confirme o nome e adicione
 
