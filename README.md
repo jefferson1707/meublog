@@ -69,7 +69,7 @@ O blog é um **Progressive Web App (PWA)** completo que pode ser instalado no ce
 | **Splash Screen** |  Implementado | Tela de carregamento personalizada |
 | **Modo Standalone** |  Implementado | Abre como app (sem barra do navegador) |
 
-###  Como Instalar no Celular
+###  Como Instalar no Celular.
 
 #### **Android (Chrome):**
 1. Acesse o blog no Chrome
